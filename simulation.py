@@ -45,7 +45,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
     for mouse_id in range(1, n_mice + 1):
 
         # Each mouse has slightly different baseline neural properties (individual differences)
-        mouse_theta_freq = np.random.uniform(6, 8)      # Base theta frequency for this mouse (stable)
+        mouse_theta_freq = np.random.uniform(8, 12)      # Base theta frequency for this mouse (stable)
         mouse_beta_freq = np.random.uniform(20, 26)     # Base beta frequency for this mouse
         mouse_gamma_freq = np.random.uniform(70, 80)    # Base gamma frequency for this mouse
         mouse_noise_level = np.random.uniform(0.8, 1.2) # Baseline noise level for this mouse
@@ -77,7 +77,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
             # 1. Theta Frequency (Hz)
             # Remains relatively stable - linked to respiratory/sniffing rhythm
             theta_freq = mouse_theta_freq + np.random.normal(0, 0.3)
-            theta_freq = np.clip(theta_freq, 5, 9)  # Keep in theta range
+            theta_freq = np.clip(theta_freq, 6, 14)  # Keep in theta range
             
             # 2. Beta Frequency (Hz)
             # Increases with cognitive engagement and learning
