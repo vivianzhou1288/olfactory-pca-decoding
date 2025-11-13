@@ -20,15 +20,22 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
     - S-: Trial presented the unrewarded odorant (CR or FA trials)
     - Reinf: Reinforcement (water reward) was delivered (only on Hit trials)
     
-    EURAL FEATURES (Continuous - basic properties):
+    NEURAL FEATURES (Continuous - basic properties):
     - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (5-9 Hz range).
-      Theta rhythms are linked to sniffing and odor sampling based on other studies. Increases with learning.
+      Theta rhythms are linked to sniffing and odor sampling. Remains relatively stable across 
+      learning stages, reflecting the consistent respiratory rhythm during odor sampling.
       
     - beta_frequency: Dominant beta oscillation frequency (Hz) in olfactory bulb (15-30 Hz range).
-      Beta rhythms are associated with odor discrimination based on other studies. Increases with learning.
+      Beta rhythms are associated with odor discrimination. Increases with learning as neural 
+      representations become more organized.
+      
+    - gamma_frequency: Dominant gamma oscillation frequency (Hz) in olfactory bulb (65-95 Hz range).
+      Gamma rhythms are associated with active sensory processing and odor discrimination. 
+      Increases with learning as task-relevant processing strengthens.
       
     - noise_level: Background noise level in neural recordings (arbitrary units, 0.5-2.0 range).
-      Lower noise = clearer signals. Decreases with learning as representations become more precise.
+      Lower noise = clearer signals. Decreases with learning as representations become more precise
+      and consistent, reflecting reduced dimensionality of neural activity patterns.
     """
     
     all_trials = []
@@ -38,8 +45,9 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
     for mouse_id in range(1, n_mice + 1):
 
         # Each mouse has slightly different baseline neural properties (individual differences)
-        mouse_theta_freq = np.random.uniform(5, 7)      # Base theta frequency for this mouse
+        mouse_theta_freq = np.random.uniform(6, 8)      # Base theta frequency for this mouse (stable)
         mouse_beta_freq = np.random.uniform(20, 26)     # Base beta frequency for this mouse
+        mouse_gamma_freq = np.random.uniform(70, 80)    # Base gamma frequency for this mouse
         mouse_noise_level = np.random.uniform(0.8, 1.2) # Baseline noise level for this mouse
         
         for trial_num in range(1, n_trials_per_mouse + 1):
@@ -65,17 +73,10 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
             trial_type = np.random.choice(['Hit', 'Miss', 'CR', 'FA'], p=probs)
             is_s_plus = trial_type in ['Hit', 'Miss']
             
-            # General neural features
+            # Neural features
             # 1. Theta Frequency (Hz)
-            # Increases with learning and attention
-            if learning_stage == 'Naive':
-                theta_freq = mouse_theta_freq + np.random.normal(0, 0.3)
-            elif learning_stage == 'Learning':
-                theta_freq = mouse_theta_freq + 0.5 + np.random.normal(0, 0.3)
-            else:  # Proficient
-                # Higher for S+ (more engaged sampling)
-                theta_freq = mouse_theta_freq + (1.2 if is_s_plus else 0.8) + np.random.normal(0, 0.3)
-            
+            # Remains relatively stable - linked to respiratory/sniffing rhythm
+            theta_freq = mouse_theta_freq + np.random.normal(0, 0.3)
             theta_freq = np.clip(theta_freq, 5, 9)  # Keep in theta range
             
             # 2. Beta Frequency (Hz)
@@ -93,7 +94,19 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
             
             beta_freq = np.clip(beta_freq, 15, 30)  # Keep in beta range
             
-            # 3. Noise Level (arbitrary units)
+            # 3. Gamma Frequency (Hz)
+            # Increases with learning and active sensory processing
+            if learning_stage == 'Naive':
+                gamma_freq = mouse_gamma_freq + np.random.normal(0, 2.0)
+            elif learning_stage == 'Learning':
+                gamma_freq = mouse_gamma_freq + 3.0 + np.random.normal(0, 2.0)
+            else:  # Proficient
+                # Higher for S+ (more engaged processing)
+                gamma_freq = mouse_gamma_freq + (7.0 if is_s_plus else 5.0) + np.random.normal(0, 2.0)
+            
+            gamma_freq = np.clip(gamma_freq, 65, 95)  # Keep in gamma range
+            
+            # 4. Noise Level (arbitrary units)
             # Decreases with learning (clearer signals)
             if learning_stage == 'Naive':
                 noise = mouse_noise_level + np.random.normal(0, 0.1)
@@ -123,6 +136,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
                 # Neural features (continuous)
                 'theta_frequency': theta_freq,
                 'beta_frequency': beta_freq,
+                'gamma_frequency': gamma_freq,
                 'noise_level': noise,
             }
             
@@ -136,7 +150,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
 # Generate the data
 feature_matrix, trial_labels = create_feature_matrix(n_mice=5, n_trials_per_mouse=40)
 
-print("Feature Matrix Shape:", feature_matrix.shape)  # (200, 14)
+print("Feature Matrix Shape:", feature_matrix.shape)  # (200, 15)
 print("\nFirst 10 trials:")
 print(feature_matrix.head(10))
 
@@ -159,11 +173,13 @@ for stage in ['Naive', 'Learning', 'Proficient']:
     print(f"\n{stage} Stage: {n_trials} trials, {accuracy:.1%} accuracy")
     print(f"  S+ trials: Theta={s_plus_data['theta_frequency'].mean():.2f} Hz, "
           f"Beta={s_plus_data['beta_frequency'].mean():.2f} Hz, "
+          f"Gamma={s_plus_data['gamma_frequency'].mean():.2f} Hz, "
           f"Noise={s_plus_data['noise_level'].mean():.3f}")
     print(f"  S- trials: Theta={s_minus_data['theta_frequency'].mean():.2f} Hz, "
           f"Beta={s_minus_data['beta_frequency'].mean():.2f} Hz, "
+          f"Gamma={s_minus_data['gamma_frequency'].mean():.2f} Hz, "
           f"Noise={s_minus_data['noise_level'].mean():.3f}")
 
 print("\nNeural Feature Statistics:")
-neural_features = ['theta_frequency', 'beta_frequency', 'noise_level']
+neural_features = ['theta_frequency', 'beta_frequency', 'gamma_frequency', 'noise_level']
 print(feature_matrix[neural_features].describe())

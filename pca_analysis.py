@@ -1,6 +1,6 @@
 """
 PCA Analysis Script for Olfactory Discrimination Neural Data
-Analyzes simulated neural features (theta, beta, noise) using LFPPCAAnalyzer
+Analyzes simulated neural features (theta, beta, gamma, noise) using LFPPCAAnalyzer
 """
 
 import numpy as np
@@ -35,12 +35,12 @@ def convert_to_lfp_format(feature_matrix, use_all_features=False):
         # All features
         feature_cols = [
             'OdorOn', 'Hit', 'Miss', 'CR', 'FA', 'S+', 'S-', 'Reinf',
-            'theta_frequency', 'beta_frequency', 'noise_level'
+            'theta_frequency', 'beta_frequency', 'gamma_frequency', 'noise_level'
         ]
     else:
         # Neural features only
         feature_cols = [
-            'theta_frequency', 'beta_frequency', 'noise_level'
+            'theta_frequency', 'beta_frequency', 'gamma_frequency', 'noise_level'
         ]
     
     n_channels = len(feature_cols)
