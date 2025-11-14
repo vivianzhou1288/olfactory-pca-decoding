@@ -6,6 +6,14 @@ import seaborn as sns
 def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5):
     """
     Features represent behavioral and neural data from go-no-go olfactory discrimination task.
+
+    PARAMETERS:
+    - n_mice: the number of mice/observations in the study
+    - n_trials_per_mouse: the number of trials per mouse simulated
+    - learning_rate: A rate in [0,1] used to simulate how quickly the mice learn. 
+                     Lower values mean slower progression between frequency levels.
+                     Can enter -1 as an option to use default thresholds of 0.3 and 0.7.
+                     If learning_rate is not -1 or in [0,1], uses a learning_rate of 0.5.
     
     BEHAVIORAL FEATURES (Binary/Categorical):
     - Mouse_ID: Identifier for each mouse (1, 2, 3, ...)
