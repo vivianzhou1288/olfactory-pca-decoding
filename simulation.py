@@ -21,7 +21,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
     - Reinf: Reinforcement (water reward) was delivered (only on Hit trials)
     
     NEURAL FEATURES (Continuous - basic properties):
-    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (5-9 Hz range).
+    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (6-14 Hz range).
       Theta rhythms are linked to sniffing and odor sampling. Remains relatively stable across 
       learning stages, reflecting the consistent respiratory rhythm during odor sampling.
       
