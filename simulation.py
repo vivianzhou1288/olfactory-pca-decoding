@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
-def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
+def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5):
     """
     Features represent behavioral and neural data from go-no-go olfactory discrimination task.
     
@@ -21,7 +21,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
     - Reinf: Reinforcement (water reward) was delivered (only on Hit trials)
     
     NEURAL FEATURES (Continuous - basic properties):
-    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (6-14 Hz range).
+    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (5-9 Hz range).
       Theta rhythms are linked to sniffing and odor sampling. Remains relatively stable across 
       learning stages, reflecting the consistent respiratory rhythm during odor sampling.
       
@@ -54,17 +54,28 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40):
             
             # Determine learning stage based on trial progression
             # From study: Behavioral performance was termed naïve or proficient when their performance estimated in a 20-trial window was ≤65% for naïve and ≥80% for proficient.
-            if trial_num <= n_trials_per_mouse * 0.3:  # First 30% of trials
+            if learning_rate == -1:
+                rate1 = 0.3
+                rate2 = 0.7
+            elif learning_rate <=1 and learning_rate >= 0:
+                rate1 = 1 - learning_rate
+                rate2 = 1 - learning_rate * learning_rate
+            else:
+                #use default values, given learning rate is invalid
+                rate1 = 0.5
+                rate2 = 0.75
+
+            if trial_num <= n_trials_per_mouse * rate1:  # First set of trials
                 learning_stage = 'Naive'
                 # Low performance: around 60% accuracy
                 probs = [0.30, 0.20, 0.30, 0.20]  # [Hit, Miss, CR, FA]
                 
-            elif trial_num <= n_trials_per_mouse * 0.7:  # Middle 40% of trials
+            elif trial_num <= n_trials_per_mouse * rate2:  # Middle set of trials
                 learning_stage = 'Learning'
                 # Intermediate performance: around 75% accuracy
                 probs = [0.375, 0.125, 0.375, 0.125]
                 
-            else:  # Last 30% of trials
+            else:  # Last set of trials
                 learning_stage = 'Proficient'
                 # High performance: around 90% accuracy
                 probs = [0.45, 0.05, 0.45, 0.05]
