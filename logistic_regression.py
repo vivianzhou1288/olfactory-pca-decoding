@@ -8,6 +8,7 @@ import pandas as pd
 from preprocessing import prepare_data, prepare_data_neural_only
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import cross_val_score
 
 # Get preprocessed data
@@ -145,10 +146,10 @@ gamma_coef_all = log_reg.coef_[0][gamma_idx]
 noise_coef_all = log_reg.coef_[0][noise_idx]
 
 # Get neural coefficients from "Neural-Only" model
-theta_coef_neural = log_reg_neural.coef_[0][0]  # theta is first
-beta_coef_neural = log_reg_neural.coef_[0][1]   # beta is second
-gamma_coef_neural = log_reg_neural.coef_[0][2]  # gamma is third
-noise_coef_neural = log_reg_neural.coef_[0][3]  # noise is fourth
+theta_coef_neural = log_reg_neural.coef_[0][0] 
+beta_coef_neural = log_reg_neural.coef_[0][1]  
+gamma_coef_neural = log_reg_neural.coef_[0][2]  
+noise_coef_neural = log_reg_neural.coef_[0][3]
 
 comparison = pd.DataFrame({
     'Metric': ['Test Accuracy', 'CV Accuracy', 'CV Std Dev', 'Overfitting', 
@@ -176,3 +177,30 @@ comparison = pd.DataFrame({
 })
 
 print(comparison.to_string(index=False))
+
+print("\nFinal Model Evaluation: Detailed Metrics")
+print("=" * 80)
+
+def get_metrics(y_true, y_pred, model_name):
+    return {
+        'Model': model_name,
+        'Accuracy': accuracy_score(y_true, y_pred),
+        'Precision': precision_score(y_true, y_pred),
+        'Recall': recall_score(y_true, y_pred),
+        'F1-Score': f1_score(y_true, y_pred)
+    }
+
+# Calculate for All Features
+metrics_all = get_metrics(y_test, y_pred, "All Features")
+
+# Calculate for Neural Only
+metrics_neural = get_metrics(y_test_neural, y_pred_neural, "Neural Only")
+
+# Create Comparison DataFrame
+eval_df = pd.DataFrame([metrics_all, metrics_neural])
+
+pd.options.display.float_format = '{:.2%}'.format
+print(eval_df.set_index('Model'))
+
+# Reset formatting if needed elsewhere
+pd.reset_option('display.float_format')
