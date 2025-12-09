@@ -118,7 +118,7 @@ print(coef_df_neural[['Feature', 'Coefficient']].to_string(index=False))
 print(f"\nIntercept: {log_reg_neural.intercept_[0]:.4f}")
 
 # Interpretation
-print("\nIntrepretation (Neural-Only)")
+print("\nInterpretation (Neural-Only)")
 print("=" * 60)
 for idx, row in coef_df_neural.iterrows():
     feat = row['Feature']
