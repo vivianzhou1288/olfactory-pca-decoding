@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
-def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5):
+def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5, random_state=42):
     """
     Features represent behavioral and neural data from go-no-go olfactory discrimination task.
 
@@ -45,6 +45,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5):
       Lower noise = clearer signals. Decreases with learning as representations become more precise
       and consistent, reflecting reduced dimensionality of neural activity patterns.
     """
+    np.random.seed(random_state)
     
     all_trials = []
     all_trial_types = []
