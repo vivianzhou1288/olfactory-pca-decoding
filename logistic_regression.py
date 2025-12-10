@@ -21,7 +21,7 @@ log_reg.fit(X_train, y_train)
 # Evaluate
 y_pred = log_reg.predict(X_test)
 
-print("Logistic Regression with Balanced Class Weights")
+print("Logistic Regression")
 print("=" * 60)
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred, target_names=['Incorrect', 'Correct']))
