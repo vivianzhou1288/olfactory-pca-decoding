@@ -53,7 +53,7 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5, 
     # Generate data for each mouse
     for mouse_id in range(1, n_mice + 1):
 
-        # Each mouse has slightly different baseline neural properties (individual differences)
+        # Each mouse has slightly different baseline neural properties (individual differences): keep in a smaller range
         mouse_theta_freq = np.random.uniform(8, 12)      # Base theta frequency for this mouse (stable)
         mouse_beta_freq = np.random.uniform(20, 26)     # Base beta frequency for this mouse
         mouse_gamma_freq = np.random.uniform(70, 80)    # Base gamma frequency for this mouse
