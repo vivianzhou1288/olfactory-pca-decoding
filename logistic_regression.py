@@ -59,13 +59,6 @@ print("=" * 60)
 print(coef_df[['Feature', 'Coefficient']])
 print(f"\nIntercept: {log_reg.intercept_[0]:.4f}")
 
-# Interpretation
-print("Intepretation")
-print("=" * 60)
-print("Positive coefficient → feature increases P(Correct)")
-print("Negative coefficient → feature decreases P(Correct)")
-print("Larger |coefficient| → stronger effect")
-
 top_feature = coef_df.iloc[0]
 print(f"\nMost important feature: {top_feature['Feature']}")
 print(f"  Coefficient: {top_feature['Coefficient']:.4f}")
@@ -117,17 +110,6 @@ print("\nFeature Importance (Neural-Only)")
 print("=" * 60)
 print(coef_df_neural[['Feature', 'Coefficient']].to_string(index=False))
 print(f"\nIntercept: {log_reg_neural.intercept_[0]:.4f}")
-
-# Interpretation
-print("\nInterpretation (Neural-Only)")
-print("=" * 60)
-for idx, row in coef_df_neural.iterrows():
-    feat = row['Feature']
-    coef = row['Coefficient']
-    if coef > 0:
-        print(f"  ↑ {feat:20s} → ↑ P(Correct)  (coef: {coef:+.3f})")
-    else:
-        print(f"  ↓ {feat:20s} → ↑ P(Correct)  (coef: {coef:+.3f})")
 
 # Side-by-side Comparison
 print("\nSide-by-side Comparison")
@@ -185,9 +167,12 @@ def get_metrics(y_true, y_pred, model_name):
     return {
         'Model': model_name,
         'Accuracy': accuracy_score(y_true, y_pred),
-        'Precision': precision_score(y_true, y_pred),
-        'Recall': recall_score(y_true, y_pred),
-        'F1-Score': f1_score(y_true, y_pred)
+        'Precision (Macro)': precision_score(y_true, y_pred, average='macro'),
+        'Recall (Macro)': recall_score(y_true, y_pred, average='macro'),
+        'F1-Score (Macro)': f1_score(y_true, y_pred, average='macro'),
+        'Precision (Weighted)': precision_score(y_true, y_pred, average='weighted'),
+        'Recall (Weighted)': recall_score(y_true, y_pred, average='weighted'),
+        'F1-Score (Weighted)': f1_score(y_true, y_pred, average='weighted')
     }
 
 # Calculate for All Features
