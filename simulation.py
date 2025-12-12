@@ -29,19 +29,19 @@ def create_feature_matrix(n_mice=5, n_trials_per_mouse=40, learning_rate = 0.5, 
     - Reinf: Reinforcement (water reward) was delivered (only on Hit trials)
     
     NEURAL FEATURES (Continuous - basic properties):
-    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (5-9 Hz range).
+    - theta_frequency: Dominant theta oscillation frequency (Hz) in olfactory bulb (8-12 Hz range).
       Theta rhythms are linked to sniffing and odor sampling. Remains relatively stable across 
       learning stages, reflecting the consistent respiratory rhythm during odor sampling.
       
-    - beta_frequency: Dominant beta oscillation frequency (Hz) in olfactory bulb (15-30 Hz range).
+    - beta_frequency: Dominant beta oscillation frequency (Hz) in olfactory bulb (20-26 Hz range).
       Beta rhythms are associated with odor discrimination. Increases with learning as neural 
       representations become more organized.
       
-    - gamma_frequency: Dominant gamma oscillation frequency (Hz) in olfactory bulb (65-95 Hz range).
+    - gamma_frequency: Dominant gamma oscillation frequency (Hz) in olfactory bulb (70-80 Hz range).
       Gamma rhythms are associated with active sensory processing and odor discrimination. 
       Increases with learning as task-relevant processing strengthens.
       
-    - noise_level: Background noise level in neural recordings (arbitrary units, 0.5-2.0 range).
+    - noise_level: Background noise level in neural recordings (arbitrary units, 0.8-1.2 range).
       Lower noise = clearer signals. Decreases with learning as representations become more precise
       and consistent, reflecting reduced dimensionality of neural activity patterns.
     """
