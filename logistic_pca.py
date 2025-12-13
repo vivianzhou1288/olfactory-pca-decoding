@@ -152,7 +152,7 @@ ax4.set_xticks(x)
 ax4.set_xticklabels(feature_cols, rotation=45, ha='right')
 ax4.set_xlabel('Feature')
 ax4.set_ylabel('Absolute Importance')
-ax4.set_title('Importance Comparison')
+ax4.set_title('Features Importance Comparison')
 ax4.legend()
 ax4.grid(True, alpha=0.3)
 
