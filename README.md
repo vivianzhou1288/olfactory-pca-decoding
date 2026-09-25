@@ -1,1 +1,11 @@
-# olfactory-pca-decoding
+# PCA, classification, and regression on simulated data on mice olfactory bulbs after exposure to learning stimuli
+
+Learning changes the brain in measurable ways. Recent research on mice learning to distinguish odors revealed that as animals become better at the task, their olfactory bulb neural activity becomes more organized. The dimensionality of the neural response patterns decreases, reflecting a shift from noisy, scattered activity to more structured patterns. This change suggests that as we learn, our brains find more efficient ways to represent information.
+
+While these findings are significant, they also raise a challenge of which methods are most effective for identifying and measuring these patterns. When researchers study neural recordings, they have many different tools to choose from. There are various ways to reduce complexity, classify patterns, or model relationships in the data. However, it is not always obvious which method is the right choice, and some approaches may work better than others, depending on what you are looking for.
+
+The goal of our project is to compare different machine learning methods on neural data that shows learning-related changes. Instead of working with real brain recordings, which are complicated and hard to process, we decided to simulate data that mimics what the original study found. Our simulated data holds similar key features like dimensionality that decreases as learning occurs, and different patterns for different types of stimuli (different theta frequency or noise level). By using simulated data, we can work with a less complex dataset that still produces similar results, allowing us to test how well different machine learning methods work.
+
+We compare methods in different ways. First, we use PCA to see how the data's complexity changes across different learning stages. Second, we test three classification methods, such as Logistic Regression, KNN, and SVM, to determine which one is more effective at distinguishing between rewarded and non-rewarded stimuli based on neural patterns. Our main contribution is a comparison of standard machine learning techniques on brain-inspired data, showing which methods work best for different types of analysis.
+
+Full report: https://docs.google.com/document/d/17KOhAJL92pSevMAyGaoEAlUXUnGPKXJQP1S4V5qbw1g/edit?usp=sharing
